@@ -1,0 +1,13 @@
+group 'com.importre.example'
+version '0.0.0'
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = "${group}.cli.MainKt"
+
+dependencies {
+    compile project(':shared')
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}

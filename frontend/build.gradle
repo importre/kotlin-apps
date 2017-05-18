@@ -1,0 +1,29 @@
+group 'com.importre.example'
+version '0.0.0'
+
+apply plugin: 'kotlin2js'
+
+compileKotlin2Js {
+    kotlinOptions {
+        outputFile = "${projectDir}/web/js/app.js"
+    }
+}
+
+build.doLast {
+    configurations.compile.each { File file ->
+        copy {
+            includeEmptyDirs = false
+
+            from zipTree(file.absolutePath)
+            into "${projectDir}/web/js/lib"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+            }
+        }
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+}
